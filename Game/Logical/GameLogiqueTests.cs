@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace GameOfLife.Game.Logical.Tests
 {
@@ -13,6 +14,7 @@ namespace GameOfLife.Game.Logical.Tests
     {
 
         private GameManager manager = null;
+        private Models.Rule rule = new Models.Rule("2A3S");
 
         [TestInitialize] 
         public void Init() 
@@ -29,14 +31,14 @@ namespace GameOfLife.Game.Logical.Tests
         [TestMethod()]
         public void TestGiveBirthToACell()
         {
-            manager.Logical.SimulateGeneration();
+            manager.Logical.SimulateGeneration(rule);
             Assert.IsTrue(manager.Logical.Area[1, 3].IsAlive, "La cellule 1,3 doit devenir vivante");
         }
 
         [TestMethod()]
         public void TestKillACell()
         {
-            manager.Logical.SimulateGeneration();
+            manager.Logical.SimulateGeneration(rule);
             Assert.IsFalse(manager.Logical.Area[1, 0].IsAlive, "La cellule 1,0 doit être morte");
         }
     }
