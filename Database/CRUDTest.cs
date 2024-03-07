@@ -29,29 +29,38 @@ namespace GameOfLifeTests.Database
                 Rule = "3A3M"
             };
 
-            Repository.Insert(user);
+            var usr = Repository.GetAll().FirstOrDefault(i =>
+            {
+                if (i.Name != null)
+                    return i.Name.Equals(user.Name);
+                return false;
+            });
 
-            Assert.AreEqual(3, Repository.GetAll().Count);
+            if(usr == null)
+                Repository.Insert(user);
+
+            Assert.AreEqual(7, Repository.GetAll().Count);
         }
 
         [TestMethod()]
         public void UpdateTestDB()
         {
-            var usr = Repository.FindByName("leo");
+            var username = "Yel";
+            var usr = Repository.FindByName(username);
             usr.Rule = "5A2M";
 
             Repository.Update(usr);
 
-            Assert.AreEqual("5A2M", Repository.FindByName("leo").Rule);
+            Assert.AreEqual("5A2M", Repository.FindByName(username).Rule);
         }
 
         [TestMethod()]
         public void DeleteTestDB()
         {
-            var usr = Repository.FindByID(2);
+            var usr = Repository.FindByName("Test");
             Repository.Delete(usr);
 
-            Assert.AreEqual(2, Repository.GetAll().Count);
+            Assert.AreEqual(6, Repository.GetAll().Count);
         }
     }
 }
